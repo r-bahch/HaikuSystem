@@ -1,0 +1,42 @@
+﻿@model HaikuSystem.ViewModels.HaikuEditVM
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h3>Are you sure you want to delete this haiku?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TheHaiku.Text)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TheHaiku.Text)
+        </dd>
+
+    </dl>
+    <hr />
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.AuthorPublishCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.AuthorPublishCode, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.AuthorPublishCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group no-color">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Delete" class="btn btn-default" /> 
+                    @Html.ActionLink("Cancel", "Index")
+                </div>
+            </div>
+        </div>
+    }
+</div>

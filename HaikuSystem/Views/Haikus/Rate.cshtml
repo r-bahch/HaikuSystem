@@ -1,0 +1,35 @@
+﻿@model HaikuSystem.Models.Rating
+
+@{
+    ViewBag.Title = "Add Rating";
+}
+
+<h2>Add Rating</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Value, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Value, new SelectList(new List<int>{ 1, 2, 3, 4, 5 }), new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Rate" class="btn btn-default" />
+            </div>
+        </div>
+
+       
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Cancel", "Index")
+</div>
+
+

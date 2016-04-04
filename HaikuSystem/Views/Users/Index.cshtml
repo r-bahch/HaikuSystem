@@ -1,0 +1,35 @@
+﻿@model PagedList.IPagedList<HaikuSystem.DTO.UserDTO>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Users";
+}
+
+<h2>All Users</h2>
+
+<p>
+    sort by:
+    @Html.ActionLink("Rating","Index", new { sortOrder = ViewBag.RatingSortParm }) |
+    @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm })
+</p>
+<div class="row">
+    <div class="col-sm-6">
+        <table class="table">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(item.Username, "Details", new { username = item.Username })
+                    </td>
+                    <td>
+                        rating: @Html.Raw(item.Rating == 0 ? "None" : item.Rating.ToString("F2"))
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

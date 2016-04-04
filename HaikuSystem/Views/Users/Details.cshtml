@@ -1,0 +1,44 @@
+﻿@model HaikuSystem.DTO.UserDTO
+
+@{
+    ViewBag.Title = Model.Username;
+}
+
+<h2>
+    @Model.Username
+    <small>
+        rating: @Html.Raw(Model.Rating == 0 ? "None" : Model.Rating.ToString("F2"))
+    </small>
+</h2>
+
+<div>
+    <div class="row">
+        <div class="col-sm-6">
+            <table class="table">
+                <tr>
+                    <th>Haiku</th>
+                    <th>Rating</th>
+                </tr>
+                @foreach (var item in Model.Haikus)
+            {
+                    <tr>
+                        <td>
+                            @Html.Raw(item.Text.Replace(Environment.NewLine, "<br/>"))
+                        </td>
+                        <td>
+                            @Html.Raw(Model.Rating == 0 ? "None" : Model.Rating.ToString("F2"))
+                        </td>
+                    </tr>
+                }
+            </table>
+
+        </div>
+    </div>
+    
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @Html.ActionLink("Delete all", "DeleteAll", new { username = Model.Username })
+        </div>
+    </div>
+</div>

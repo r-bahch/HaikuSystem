@@ -1,0 +1,61 @@
+﻿@model PagedList.IPagedList<HaikuSystem.Models.Haiku>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Haikus";
+}
+
+<h2>All Haikus</h2>
+
+<p>
+    sort by:
+    @Html.ActionLink("Rating", "Index", new { sortOrder = ViewBag.RatingSortParm }) |
+    @Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSortParm })
+</p>
+
+<div class="row">
+    <div class="col-sm-8">
+        <table class="table">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.Raw(item.Text.Replace(Environment.NewLine, "<br/>"))
+                    </td>
+                    <td>
+                        <div class="row">
+                            <div class="col-md-6">
+                                rating: @{
+                                    try
+                                    {
+                                        double rating = item.Ratings.Average(x => x.Value);
+                                        @Html.Raw(Convert.ToDecimal(rating).ToString("#,##0.00"));
+                                    }
+                                    catch (InvalidOperationException)
+                                    {
+                                        @Html.Raw("None");
+                                    }
+                                }
+                                | @Html.ActionLink("Rate", "Rate", new { id = item.ID })
+                            </div>
+                            <div class="col-md-6">
+                                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                                @*@Html.ActionLink("Details", "Details", new { id = item.ID }) |*@
+                                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                            </div>
+                        </div>
+                        
+                    </td>
+                    
+                </tr>
+                            }
+
+        </table>
+
+    </div>
+</div>
+
+
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
